@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -19,6 +20,8 @@ class GenerateRequestId
         $requestId = (string) Str::uuid();
 
         $request->attributes->set('request_id', $requestId);
+
+        Log::withContext(['request_id' => $requestId]);
 
         return $next($request);
     }
