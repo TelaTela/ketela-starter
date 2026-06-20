@@ -99,7 +99,6 @@
     "extra": {
         "laravel": {
             "dont-discover": [
-                "laravel/telescope"
             ],
             "installer": {
                 "post-create-project": [
