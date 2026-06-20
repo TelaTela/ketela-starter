@@ -48,5 +48,6 @@ class UserFactory extends Factory
      */
     public function withTwoFactor(): static
     {
+        return $this->state(fn (array $attributes) => []);
     }
 }
