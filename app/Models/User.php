@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Log;
 
 /**
  * @property int $id
@@ -42,5 +43,15 @@ class User extends Authenticatable implements MustVerifyEmail
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function sendEmailVerificationNotification()
+    {
+        parent::sendEmailVerificationNotification();
+
+        Log::info('Verification email sent', [
+            'user_id' => $this->id,
+            'email' => $this->email,
+        ]);
     }
 }
