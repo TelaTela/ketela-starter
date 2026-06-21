@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Concerns\Testing\RefreshLog;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
@@ -10,13 +11,7 @@ use Tests\TestCase;
 
 class RequestIdTest extends TestCase
 {
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        // Clear any previous logs
-        file_put_contents(storage_path('logs/test.log'), '');
-    }
+    use RefreshLog;
 
     public function test_inertia_shared_props_contains_request_id(): void
     {
