@@ -2,11 +2,11 @@
 
 namespace Tests\Feature;
 
-use App\Concerns\Testing\RefreshLog;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
 use Inertia\Testing\AssertableInertia;
+use Tests\Concerns\RefreshLog;
 use Tests\TestCase;
 
 class RequestIdTest extends TestCase

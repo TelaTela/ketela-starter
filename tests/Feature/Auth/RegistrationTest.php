@@ -2,13 +2,13 @@
 
 namespace Tests\Feature\Auth;
 
-use App\Concerns\Testing\RefreshLog;
 use App\Models\User;
 use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Notification;
 use Laravel\Fortify\Features;
+use Tests\Concerns\RefreshLog;
 use Tests\TestCase;
 
 class RegistrationTest extends TestCase

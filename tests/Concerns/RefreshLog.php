@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Concerns\Testing;
+namespace Tests\Concerns;
 
 trait RefreshLog
 {
