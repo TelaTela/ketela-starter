@@ -2,12 +2,10 @@
 
 namespace App\Listeners\Auth;
 
-use Illuminate\Auth\Events\Authenticated;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Auth\Events\Login;
 use Illuminate\Support\Facades\Log;
 
-class LogAuthenticatedUser
+class LogSuccessfulLogin
 {
     /**
      * Create the event listener.
@@ -20,10 +18,11 @@ class LogAuthenticatedUser
     /**
      * Handle the event.
      */
-    public function handle(Authenticated $event): void
+    public function handle(Login $event): void
     {
         Log::info('AUTH: User authenticated successfully', [
             'user_id' => $event->user->getAuthIdentifier(),
+            'remember' => $event->remember,
             'ip' => request()->ip(),
             'user_agent' => request()->userAgent(),
         ]);
