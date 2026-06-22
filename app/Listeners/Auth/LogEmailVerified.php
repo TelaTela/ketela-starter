@@ -24,7 +24,7 @@ class LogEmailVerified
         /** @var User $user */
         $user = $event->user;
 
-        Log::info('User email verified', [
+        Log::info('AUTH: User email verified', [
             'user_id' => $user->id,
             'email' => $user->email,
             'verified_at' => $user->email_verified_at,
