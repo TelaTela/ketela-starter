@@ -24,7 +24,7 @@ class LogRegistered
         /** @var User $user */
         $user = $event->user;
 
-        Log::info('New user registered', [
+        Log::info('AUTH: New user registered', [
             'user_id' => $user->id,
             'email' => $user->email,
         ]);
