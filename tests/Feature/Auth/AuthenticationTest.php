@@ -3,9 +3,17 @@
 namespace Tests\Feature\Auth;
 
 use App\Models\User;
+use App\Notifications\Auth\LoginLockoutEmail;
+use Illuminate\Auth\Events\Lockout;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Notifications\SendQueuedNotifications;
+use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\Str;
 use Laravel\Fortify\Features;
+use Laravel\Fortify\Fortify;
 use Tests\TestCase;
 
 class AuthenticationTest extends TestCase
@@ -78,15 +86,19 @@ class AuthenticationTest extends TestCase
 
     public function test_users_are_rate_limited()
     {
+        Notification::fake();
+
         $user = User::factory()->create();
 
-        RateLimiter::increment(md5('login'.implode('|', [$user->email, '127.0.0.1'])), amount: 5);
+        RateLimiter::increment(Str::transliterate(Str::lower($user->email) . '|127.0.0.1'), amount: 5);
 
         $response = $this->post(route('login.store'), [
             'email' => $user->email,
             'password' => 'wrong-password',
         ]);
 
-        $response->assertTooManyRequests();
+        Notification::assertSentTo($user, LoginLockoutEmail::class);
+
+        $response->assertInvalid([Fortify::username()]);
     }
 }
