@@ -1,6 +1,6 @@
 import { Head, usePage } from '@inertiajs/react';
-import { dashboard } from '@/routes';
 import TimedGreeting from '@/components/timed-greeting';
+import { dashboard } from '@/routes';
 
 export default function Dashboard() {
     const { auth } = usePage().props;

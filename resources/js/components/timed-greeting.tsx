@@ -1,14 +1,24 @@
+import { useEffect, useState } from 'react';
+
 export default function TimedGreeting({
     time,
 }: {
     time?: 'morning' | 'noon' | 'evening';
 }) {
-    if (!time) {
-        const currentHour = new Date(Date.now()).getHours();
+    const [hour, setHour] = useState(() => new Date(Date.now()).getHours());
 
-        if (currentHour >= 0 && currentHour < 12) {
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setHour(new Date(Date.now()).getHours());
+        }, 60 * 1000);
+
+        return () => clearInterval(interval);
+    }, []);
+
+    if (!time) {
+        if (hour >= 0 && hour < 12) {
             time = 'morning';
-        } else if (currentHour >= 12 && currentHour < 18) {
+        } else if (hour >= 12 && hour < 18) {
             time = 'noon';
         } else {
             time = 'evening';
