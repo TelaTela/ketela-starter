@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Str;
+use Inertia\Testing\AssertableInertia;
 use Laravel\Fortify\Features;
 use Laravel\Fortify\Fortify;
 use Tests\TestCase;
@@ -25,6 +26,20 @@ class AuthenticationTest extends TestCase
         $response = $this->get(route('login'));
 
         $response->assertOk();
+
+        // Assert localization
+        $lang = app()->getLocale();
+        $basePath = rtrim(lang_path(), '/');
+        $pagesLocalePath = "{$basePath}/{$lang}/pages";
+
+        $loginPageLocalePath = "{$pagesLocalePath}/auth/login.php";
+        $loginPageLocale = file_exists($loginPageLocalePath) ? require $loginPageLocalePath : [];
+
+        $response->assertInertia(fn (AssertableInertia $page) => $page
+            ->has('lang', fn (AssertableInertia $page) => $page
+                ->where('pages/auth/login', $loginPageLocale)
+            )
+        );
     }
 
     public function test_users_can_authenticate_using_the_login_screen()
