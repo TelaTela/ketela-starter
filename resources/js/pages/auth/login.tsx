@@ -1,4 +1,4 @@
-import { Form, Head, LayoutCallback } from '@inertiajs/react';
+import { Form, Head } from '@inertiajs/react';
 import InputError from '@/components/input-error';
 import PasswordInput from '@/components/password-input';
 import TextLink from '@/components/text-link';
@@ -10,7 +10,6 @@ import { Spinner } from '@/components/ui/spinner';
 import { register } from '@/routes';
 import { store } from '@/routes/login';
 import { request } from '@/routes/password';
-import { createLang } from '@inertia-translator-core';
 import { lang } from '@erag/lang-sync-inertia/react';
 
 type Props = {
@@ -112,13 +111,7 @@ export default function Login({ status, canResetPassword }: Props) {
     );
 }
 
-const layoutCallback: LayoutCallback = (props) => {
-    const { __ } = createLang(() => props.lang);
-
-    return {
-        title: __('pages/auth/login.layout.title'),
-        description: __('pages/auth/login.layout.description'),
-    };
+Login.layout = {
+    title: 'pages/auth/login.layout.title',
+    description: 'pages/auth/login.layout.description',
 };
-
-Login.layout = layoutCallback;

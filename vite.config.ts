@@ -29,12 +29,4 @@ export default defineConfig({
             formVariants: true,
         }),
     ],
-    resolve: {
-        alias: {
-            '@inertia-translator-core': path.resolve(
-                __dirname,
-                'node_modules/@erag/lang-sync-inertia/dist/core/translator.js'
-            ),
-        },
-    },
 });

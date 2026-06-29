@@ -20,7 +20,3 @@ declare module '@inertiajs/core' {
         };
     }
 }
-
-declare module '@inertia-translator-core' {
-    export * from '../../../node_modules/@erag/lang-sync-inertia/dist/core/translator.d.ts';
-}

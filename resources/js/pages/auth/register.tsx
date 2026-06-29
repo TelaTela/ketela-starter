@@ -1,5 +1,5 @@
 import { lang } from '@erag/lang-sync-inertia/react';
-import { Form, Head, LayoutCallback } from '@inertiajs/react';
+import { Form, Head } from '@inertiajs/react';
 import InputError from '@/components/input-error';
 import PasswordInput from '@/components/password-input';
 import TextLink from '@/components/text-link';
@@ -9,7 +9,6 @@ import { Label } from '@/components/ui/label';
 import { Spinner } from '@/components/ui/spinner';
 import { login } from '@/routes';
 import { store } from '@/routes/register';
-import { createLang } from '@inertia-translator-core';
 
 type Props = {
     passwordRules: string;
@@ -136,18 +135,7 @@ export default function Register({ passwordRules }: Props) {
     );
 }
 
-const layoutCallback: LayoutCallback = (props) => {
-    const { __ } = createLang(() => props.lang);
-
-    return {
-        title: __('pages/auth/register.layout.title'),
-        description: __('pages/auth/register.layout.description'),
-    };
+Register.layout = {
+    title: 'pages/auth/register.layout.title',
+    description: 'pages/auth/register.layout.description',
 };
-
-Register.layout = layoutCallback;
-
-// Register.layout = {
-//     title: 'Create an account',
-//     description: 'Enter your details below to create your account',
-// };
