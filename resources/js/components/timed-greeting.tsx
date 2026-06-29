@@ -1,3 +1,4 @@
+import { lang } from '@erag/lang-sync-inertia/react';
 import { useEffect, useState } from 'react';
 
 export default function TimedGreeting({
@@ -25,19 +26,7 @@ export default function TimedGreeting({
         }
     }
 
-    let greeting: string = '';
+    const { __ } = lang();
 
-    switch (time) {
-        case 'morning':
-            greeting = 'Good Morning! 🌄';
-            break;
-        case 'noon':
-            greeting = 'Good Afternoon! 🌞';
-            break;
-        case 'evening':
-            greeting = 'Goon Evening! 🌛';
-            break;
-    }
-
-    return <h1 className="text-3xl font-medium">{greeting}</h1>;
+    return <h1 className="text-3xl font-medium">{__('components/timed-greeting.' + time)}</h1>;
 }

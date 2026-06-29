@@ -1,3 +1,4 @@
+import { lang } from '@erag/lang-sync-inertia/react';
 import { Link } from '@inertiajs/react';
 import { Fragment } from 'react';
 import {
@@ -15,6 +16,8 @@ export function Breadcrumbs({
 }: {
     breadcrumbs: BreadcrumbItemType[];
 }) {
+    const { __ } = lang();
+
     return (
         <>
             {breadcrumbs.length > 0 && (
@@ -28,12 +31,12 @@ export function Breadcrumbs({
                                     <BreadcrumbItem>
                                         {isLast ? (
                                             <BreadcrumbPage>
-                                                {item.title}
+                                                {__(item.title)}
                                             </BreadcrumbPage>
                                         ) : (
                                             <BreadcrumbLink asChild>
                                                 <Link href={item.href}>
-                                                    {item.title}
+                                                    {__(item.title)}
                                                 </Link>
                                             </BreadcrumbLink>
                                         )}

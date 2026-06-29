@@ -7,6 +7,7 @@ use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Notification;
+use Inertia\Testing\AssertableInertia;
 use Laravel\Fortify\Features;
 use Tests\Concerns\RefreshLog;
 use Tests\TestCase;
@@ -28,6 +29,20 @@ class RegistrationTest extends TestCase
         $response = $this->get(route('register'));
 
         $response->assertOk();
+
+        // Assert localization
+        $lang = app()->getLocale();
+        $basePath = rtrim(lang_path(), '/');
+        $pagesLocalePath = "{$basePath}/{$lang}/pages";
+
+        $registerPageLocalePath = "{$pagesLocalePath}/auth/register.php";
+        $registerPageLocale = file_exists($registerPageLocalePath) ? require $registerPageLocalePath : [];
+
+        $response->assertInertia(fn (AssertableInertia $page) => $page
+            ->has('lang', fn (AssertableInertia $page) => $page
+                ->where('pages/auth/register', $registerPageLocale)
+            )
+        );
     }
 
     public function test_new_users_can_register()

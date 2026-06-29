@@ -1,3 +1,4 @@
+import type { LangObject } from 'node_modules/@erag/lang-sync-inertia/dist/types/lang';
 import type { Auth } from '@/types/auth';
 
 declare module 'react' {
@@ -14,6 +15,7 @@ declare module '@inertiajs/core' {
             name: string;
             auth: Auth;
             sidebarOpen: boolean;
+            lang: LangObject;
             [key: string]: unknown;
         };
     }
