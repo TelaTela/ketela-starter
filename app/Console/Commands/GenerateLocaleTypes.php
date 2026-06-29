@@ -17,13 +17,14 @@ class GenerateLocaleTypes extends Command
     public function handle(): void
     {
         $supportedLocales = config('app.supported_locales', ['en']);
-        $union = $supportedLocales ? "'".implode("' | '", $supportedLocales)."'" : 'never';
+        $union = $supportedLocales ? "'".implode("','", $supportedLocales)."'" : 'never';
 
         $content = <<<TS
 // This file is auto-generated - do not edit manually.
 // Run `php artisan ts:generate-locale-types` to generate.
 
-export type SupportedLocale = $union;
+export const SUPPORTED_LOCALES = [$union] as const;
+export type SupportedLocale = typeof SUPPORTED_LOCALES[number];
 TS;
 
         $path = resource_path('js/types/locales.d.ts');
