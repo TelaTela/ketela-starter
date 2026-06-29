@@ -1,7 +1,7 @@
+import { lang } from '@erag/lang-sync-inertia/react';
 import { Head, usePage } from '@inertiajs/react';
 import TimedGreeting from '@/components/timed-greeting';
 import { dashboard } from '@/routes';
-import { lang } from '@erag/lang-sync-inertia/react';
 
 export default function Dashboard() {
     const { auth } = usePage().props;

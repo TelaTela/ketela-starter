@@ -1,3 +1,4 @@
+import { lang } from '@erag/lang-sync-inertia/react';
 import { Form, Head } from '@inertiajs/react';
 import InputError from '@/components/input-error';
 import PasswordInput from '@/components/password-input';
@@ -10,7 +11,6 @@ import { Spinner } from '@/components/ui/spinner';
 import { register } from '@/routes';
 import { store } from '@/routes/login';
 import { request } from '@/routes/password';
-import { lang } from '@erag/lang-sync-inertia/react';
 
 type Props = {
     status?: string;

@@ -1,5 +1,5 @@
+import type { LangObject } from 'node_modules/@erag/lang-sync-inertia/dist/types/lang';
 import type { Auth } from '@/types/auth';
-import { LangObject } from 'node_modules/@erag/lang-sync-inertia/dist/types/lang';
 
 declare module 'react' {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars

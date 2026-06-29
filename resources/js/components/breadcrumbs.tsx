@@ -1,3 +1,4 @@
+import { lang } from '@erag/lang-sync-inertia/react';
 import { Link } from '@inertiajs/react';
 import { Fragment } from 'react';
 import {
@@ -9,7 +10,6 @@ import {
     BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb';
 import type { BreadcrumbItem as BreadcrumbItemType } from '@/types';
-import { lang } from '@erag/lang-sync-inertia/react';
 
 export function Breadcrumbs({
     breadcrumbs,
@@ -17,6 +17,7 @@ export function Breadcrumbs({
     breadcrumbs: BreadcrumbItemType[];
 }) {
     const { __ } = lang();
+
     return (
         <>
             {breadcrumbs.length > 0 && (
