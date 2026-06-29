@@ -33,7 +33,9 @@ export default function Login({ status, canResetPassword }: Props) {
                     <>
                         <div className="grid gap-6">
                             <div className="grid gap-2">
-                                <Label htmlFor="email">{__('pages/auth/login.form.email.label')}</Label>
+                                <Label htmlFor="email">
+                                    {__('pages/auth/login.form.email.label')}
+                                </Label>
                                 <Input
                                     id="email"
                                     type="email"
@@ -42,21 +44,29 @@ export default function Login({ status, canResetPassword }: Props) {
                                     autoFocus
                                     tabIndex={1}
                                     autoComplete="email"
-                                    placeholder={__('pages/auth/login.form.email.placeholder')}
+                                    placeholder={__(
+                                        'pages/auth/login.form.email.placeholder',
+                                    )}
                                 />
                                 <InputError message={errors.email} />
                             </div>
 
                             <div className="grid gap-2">
                                 <div className="flex items-center">
-                                    <Label htmlFor="password">{__('pages/auth/login.form.password.label')}</Label>
+                                    <Label htmlFor="password">
+                                        {__(
+                                            'pages/auth/login.form.password.label',
+                                        )}
+                                    </Label>
                                     {canResetPassword && (
                                         <TextLink
                                             href={request()}
                                             className="ml-auto text-sm"
                                             tabIndex={5}
                                         >
-                                            {__('pages/auth/login.form.password.forgot')}
+                                            {__(
+                                                'pages/auth/login.form.password.forgot',
+                                            )}
                                         </TextLink>
                                     )}
                                 </div>
@@ -66,7 +76,9 @@ export default function Login({ status, canResetPassword }: Props) {
                                     required
                                     tabIndex={2}
                                     autoComplete="current-password"
-                                    placeholder={__('pages/auth/login.form.password.placeholder')}
+                                    placeholder={__(
+                                        'pages/auth/login.form.password.placeholder',
+                                    )}
                                 />
                                 <InputError message={errors.password} />
                             </div>
@@ -77,7 +89,9 @@ export default function Login({ status, canResetPassword }: Props) {
                                     name="remember"
                                     tabIndex={3}
                                 />
-                                <Label htmlFor="remember">{__('pages/auth/login.form.remember.label')}</Label>
+                                <Label htmlFor="remember">
+                                    {__('pages/auth/login.form.remember.label')}
+                                </Label>
                             </div>
 
                             <Button
