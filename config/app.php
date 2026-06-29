@@ -78,7 +78,11 @@ return [
     |
     */
 
+    'supported_locales' => ['en', 'id'],
+
     'locale' => env('APP_LOCALE', 'en'),
+
+    'locale_cookie' => env('LOCALE_COOKIE', 'locale'),
 
     'fallback_locale' => env('APP_FALLBACK_LOCALE', 'en'),
 
