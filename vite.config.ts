@@ -4,6 +4,7 @@ import tailwindcss from '@tailwindcss/vite';
 import react from '@vitejs/plugin-react';
 import laravel from 'laravel-vite-plugin';
 import { bunny } from 'laravel-vite-plugin/fonts';
+import path from 'path';
 import { defineConfig } from 'vite';
 
 export default defineConfig({
@@ -28,4 +29,12 @@ export default defineConfig({
             formVariants: true,
         }),
     ],
+    resolve: {
+        alias: {
+            '@inertia-translator-core': path.resolve(
+                __dirname,
+                'node_modules/@erag/lang-sync-inertia/dist/core/translator.js'
+            ),
+        },
+    },
 });

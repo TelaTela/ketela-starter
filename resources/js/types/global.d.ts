@@ -1,4 +1,5 @@
 import type { Auth } from '@/types/auth';
+import { LangObject } from 'node_modules/@erag/lang-sync-inertia/dist/types/lang';
 
 declare module 'react' {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -14,7 +15,12 @@ declare module '@inertiajs/core' {
             name: string;
             auth: Auth;
             sidebarOpen: boolean;
+            lang: LangObject;
             [key: string]: unknown;
         };
     }
+}
+
+declare module '@inertia-translator-core' {
+    export * from '../../../node_modules/@erag/lang-sync-inertia/dist/core/translator.d.ts';
 }
