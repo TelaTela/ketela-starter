@@ -38,10 +38,14 @@ class DashboardTest extends TestCase
         $timedGreetingComponentLocalePath = "{$componentsLocalePath}/timed-greeting.php";
         $timedGreetingComponentLocale = file_exists($timedGreetingComponentLocalePath) ? require $timedGreetingComponentLocalePath : [];
 
+        $languageSwitchSubmenuComponentLocalePath = "{$componentsLocalePath}/language-switch-submenu.php";
+        $languageSwitchSubmenuComponentLocale = file_exists($languageSwitchSubmenuComponentLocalePath) ? require $languageSwitchSubmenuComponentLocalePath : [];
+
         $response->assertInertia(fn (AssertableInertia $page) => $page
             ->has('lang', fn (AssertableInertia $page) => $page
                 ->where('pages/dashboard', $dashboardPageLocale)
                 ->where('components/timed-greeting', $timedGreetingComponentLocale)
+                ->where('components/language-switch-submenu', $languageSwitchSubmenuComponentLocale)
             )
         );
     }
