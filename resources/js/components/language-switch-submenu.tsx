@@ -14,6 +14,7 @@ import { US, ID, FlagComponent } from 'country-flag-icons/react/3x2';
 import { ReactComponent } from 'node_modules/@inertiajs/react/types/types';
 import { ReactElement } from 'react';
 import { useMobileNavigation } from '@/hooks/use-mobile-navigation';
+import { lang } from '@erag/lang-sync-inertia/react';
 
 function mapLocale(locale: SupportedLocale): {
     label: string;
@@ -36,12 +37,13 @@ function mapLocale(locale: SupportedLocale): {
 export function LanguageSwitchSubmenu() {
     const { locale } = usePage().props;
     const cleanup = useMobileNavigation();
+    const { __ } = lang();
 
     return (
         <DropdownMenuSub>
             <DropdownMenuSubTrigger className="flex items-center gap-2 [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 [&_svg:not([class*='text-'])]:text-muted-foreground">
                 <Languages className="mr-2" />
-                Switch Language
+                {__('components/language-switch-submenu.trigger_label')}
             </DropdownMenuSubTrigger>
             <DropdownMenuPortal>
                 <DropdownMenuSubContent>
