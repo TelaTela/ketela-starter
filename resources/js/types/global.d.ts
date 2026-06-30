@@ -1,5 +1,6 @@
 import type { LangObject } from 'node_modules/@erag/lang-sync-inertia/dist/types/lang';
 import type { Auth } from '@/types/auth';
+import { SupportedLocale } from './locales';
 
 declare module 'react' {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -16,6 +17,7 @@ declare module '@inertiajs/core' {
             auth: Auth;
             sidebarOpen: boolean;
             lang: LangObject;
+            locale: SupportedLocale;
             [key: string]: unknown;
         };
     }
