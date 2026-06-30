@@ -27,7 +27,7 @@ export const SUPPORTED_LOCALES = [$union] as const;
 export type SupportedLocale = typeof SUPPORTED_LOCALES[number];
 TS;
 
-        $path = resource_path('js/types/locales.d.ts');
+        $path = resource_path('js/types/locales.ts');
         File::ensureDirectoryExists(dirname($path));
         File::put($path, $content);
 
