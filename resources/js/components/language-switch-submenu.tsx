@@ -1,6 +1,5 @@
 import { Check, Languages } from 'lucide-react';
 import {
-    DropdownMenuCheckboxItem,
     DropdownMenuItem,
     DropdownMenuPortal,
     DropdownMenuSub,
@@ -10,8 +9,7 @@ import {
 import { Link, usePage } from '@inertiajs/react';
 import { SUPPORTED_LOCALES, SupportedLocale } from '@/types/locales';
 import { switchMethod as switchLocale } from '@/routes/locale';
-import { US, ID, FlagComponent } from 'country-flag-icons/react/3x2';
-import { ReactComponent } from 'node_modules/@inertiajs/react/types/types';
+import { US, ID } from 'country-flag-icons/react/3x2';
 import { ReactElement } from 'react';
 import { useMobileNavigation } from '@/hooks/use-mobile-navigation';
 import { lang } from '@erag/lang-sync-inertia/react';
