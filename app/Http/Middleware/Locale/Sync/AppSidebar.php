@@ -16,7 +16,7 @@ class AppSidebar
     public function handle(Request $request, Closure $next): Response
     {
         syncLangFiles([
-            'components/language-switch-submenu',
+            'components/app-sidebar',
         ]);
 
         return $next($request);

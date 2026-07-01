@@ -1,3 +1,4 @@
+import { lang } from '@erag/lang-sync-inertia/react';
 import { Link, router } from '@inertiajs/react';
 import { LogOut, Settings } from 'lucide-react';
 import {
@@ -19,6 +20,7 @@ type Props = {
 
 export function UserMenuContent({ user }: Props) {
     const cleanup = useMobileNavigation();
+    const { __ } = lang();
 
     const handleLogout = () => {
         cleanup();
@@ -42,7 +44,7 @@ export function UserMenuContent({ user }: Props) {
                         onClick={cleanup}
                     >
                         <Settings className="mr-2" />
-                        Settings
+                        {__('components/app-sidebar.user.items.settings')}
                     </Link>
                 </DropdownMenuItem>
                 <LanguageSwitchSubmenu />
@@ -57,7 +59,7 @@ export function UserMenuContent({ user }: Props) {
                     data-test="logout-button"
                 >
                     <LogOut className="mr-2" />
-                    Log out
+                    {__('components/app-sidebar.user.items.logout')}
                 </Link>
             </DropdownMenuItem>
         </>
