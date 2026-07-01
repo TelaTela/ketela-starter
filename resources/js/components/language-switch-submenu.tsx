@@ -1,4 +1,12 @@
+import { lang } from '@erag/lang-sync-inertia/react';
+import { Link, usePage } from '@inertiajs/react';
+import { US, ID } from 'country-flag-icons/react/3x2';
 import { Check, Languages } from 'lucide-react';
+import type { ReactElement } from 'react';
+import { useMobileNavigation } from '@/hooks/use-mobile-navigation';
+import { switchMethod as switchLocale } from '@/routes/locale';
+import { SUPPORTED_LOCALES } from '@/types/locales';
+import type { SupportedLocale } from '@/types/locales';
 import {
     DropdownMenuItem,
     DropdownMenuPortal,
@@ -6,13 +14,6 @@ import {
     DropdownMenuSubContent,
     DropdownMenuSubTrigger,
 } from './ui/dropdown-menu';
-import { Link, usePage } from '@inertiajs/react';
-import { SUPPORTED_LOCALES, SupportedLocale } from '@/types/locales';
-import { switchMethod as switchLocale } from '@/routes/locale';
-import { US, ID } from 'country-flag-icons/react/3x2';
-import { ReactElement } from 'react';
-import { useMobileNavigation } from '@/hooks/use-mobile-navigation';
-import { lang } from '@erag/lang-sync-inertia/react';
 
 function mapLocale(locale: SupportedLocale): {
     label: string;
@@ -41,12 +42,13 @@ export function LanguageSwitchSubmenu() {
         <DropdownMenuSub>
             <DropdownMenuSubTrigger className="flex items-center gap-2 [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 [&_svg:not([class*='text-'])]:text-muted-foreground">
                 <Languages className="mr-2" />
-                {__('components/language-switch-submenu.trigger_label')}
+                {__('components/app-sidebar.user.items.switch_language')}
             </DropdownMenuSubTrigger>
             <DropdownMenuPortal>
                 <DropdownMenuSubContent>
                     {SUPPORTED_LOCALES.map((locale_item, index) => {
                         const { label, flag } = mapLocale(locale_item);
+
                         return (
                             <DropdownMenuItem key={index} asChild>
                                 <Link
