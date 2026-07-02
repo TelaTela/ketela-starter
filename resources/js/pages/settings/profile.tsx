@@ -1,5 +1,7 @@
+import { useLang } from '@erag/lang-sync-inertia/react';
 import { Form, Head, usePage } from '@inertiajs/react';
 import { Link } from '@inertiajs/react';
+import { LoaderCircle } from 'lucide-react';
 import ProfileController from '@/actions/App/Http/Controllers/Settings/ProfileController';
 import DeleteUser from '@/components/delete-user';
 import Heading from '@/components/heading';
@@ -10,8 +12,6 @@ import { Label } from '@/components/ui/label';
 import { edit } from '@/routes/profile';
 import { send } from '@/routes/verification';
 import type { Auth } from '@/types';
-import { useLang } from '@erag/lang-sync-inertia/react';
-import { LoaderCircle } from 'lucide-react';
 
 type PageProps = {
     auth: Auth;
