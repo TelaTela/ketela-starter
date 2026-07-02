@@ -90,7 +90,7 @@ class ProfileUpdateTest extends TestCase
 
         Log::shouldHaveReceived('info')
             ->once()
-            ->with('Profile updated.', \Mockery::on(function (array $context) use ($user) {
+            ->with('Settings/Profile: Profile updated.', \Mockery::on(function (array $context) use ($user) {
                 return $context['user_id'] === $user->id
                     && $context['name_changed'] === true
                     && $context['email_changed'] === false;
@@ -111,7 +111,7 @@ class ProfileUpdateTest extends TestCase
         $response
             ->assertRedirect(route('profile.edit'))
             ->assertInertiaFlash('toast.type', 'success')
-            ->assertInertiaFlash('toast.message', __('profile.update.success'));
+            ->assertInertiaFlash('toast.message', __('settings/profile.update.success'));
     }
 
     public function test_user_can_delete_their_account()
