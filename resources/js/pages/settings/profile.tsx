@@ -10,6 +10,8 @@ import { Label } from '@/components/ui/label';
 import { edit } from '@/routes/profile';
 import { send } from '@/routes/verification';
 import type { Auth } from '@/types';
+import { useLang } from '@erag/lang-sync-inertia/react';
+import { LoaderCircle } from 'lucide-react';
 
 type PageProps = {
     auth: Auth;
@@ -25,18 +27,23 @@ export default function Profile(
     },
 ) {
     const { auth } = usePage<PageProps>().props;
+    const { __ } = useLang();
 
     return (
         <>
-            <Head title="Profile settings" />
+            <Head title={__('pages/settings/profile.head_title')} />
 
-            <h1 className="sr-only">Profile settings</h1>
+            <h1 className="sr-only">
+                {__('pages/settings/profile.head_title')}
+            </h1>
 
             <div className="space-y-6">
                 <Heading
                     variant="small"
-                    title="Profile"
-                    description="Update your name and email address"
+                    title={__('pages/settings/profile.heading.title')}
+                    description={__(
+                        'pages/settings/profile.heading.description'
+                    )}
                 />
 
                 <Form
@@ -49,7 +56,9 @@ export default function Profile(
                     {({ processing, errors }) => (
                         <>
                             <div className="grid gap-2">
-                                <Label htmlFor="name">Name</Label>
+                                <Label htmlFor="name">
+                                    {__('pages/settings/profile.form.name.label')}
+                                </Label>
 
                                 <Input
                                     id="name"
@@ -58,17 +67,26 @@ export default function Profile(
                                     name="name"
                                     required
                                     autoComplete="name"
-                                    placeholder="Full name"
+                                    placeholder={__(
+                                        'pages/settings/profile.form.name.placeholder'
+                                    )}
+                                    aria-invalid={Boolean(errors.name)}
+                                    aria-describedby={
+                                        errors.name ? 'name-error' : undefined
+                                    }
                                 />
 
                                 <InputError
+                                    id="name-error"
                                     className="mt-2"
                                     message={errors.name}
                                 />
                             </div>
 
                             <div className="grid gap-2">
-                                <Label htmlFor="email">Email address</Label>
+                                <Label htmlFor="email">
+                                    {__('pages/settings/profile.form.email.label')}
+                                </Label>
 
                                 <Input
                                     id="email"
@@ -78,10 +96,19 @@ export default function Profile(
                                     name="email"
                                     required
                                     autoComplete="username"
-                                    placeholder="Email address"
+                                    placeholder={__(
+                                        'pages/settings/profile.form.email.placeholder'
+                                    )}
+                                    aria-invalid={Boolean(errors.email)}
+                                    aria-describedby={
+                                        errors.email
+                                            ? 'email-error'
+                                            : undefined
+                                    }
                                 />
 
                                 <InputError
+                                    id="email-error"
                                     className="mt-2"
                                     message={errors.email}
                                 />
@@ -91,22 +118,26 @@ export default function Profile(
                                 auth.user.email_verified_at === null && (
                                     <div>
                                         <p className="-mt-4 text-sm text-muted-foreground">
-                                            Your email address is unverified.{' '}
+                                            {__(
+                                                'pages/settings/profile.verification.unverified_notice',
+                                            )}{' '}
                                             <Link
                                                 href={send()}
                                                 as="button"
                                                 className="text-foreground underline decoration-neutral-300 underline-offset-4 transition-colors duration-300 ease-out hover:decoration-current! dark:decoration-neutral-500"
                                             >
-                                                Click here to re-send the
-                                                verification email.
+                                                {__(
+                                                    'pages/settings/profile.verification.resend_link',
+                                                )}
                                             </Link>
                                         </p>
 
                                         {status ===
                                             'verification-link-sent' && (
-                                            <div className="mt-2 text-sm font-medium text-green-600">
-                                                A new verification link has been
-                                                sent to your email address.
+                                            <div className="mt-2 text-sm font-medium text-green-600 dark:text-green-400">
+                                                {__(
+                                                    'pages/settings/profile.verification.link_sent',
+                                                )}
                                             </div>
                                         )}
                                     </div>
@@ -115,9 +146,22 @@ export default function Profile(
                             <div className="flex items-center gap-4">
                                 <Button
                                     disabled={processing}
+                                    aria-busy={processing}
                                     data-test="update-profile-button"
                                 >
-                                    Save
+                                    {processing && (
+                                        <LoaderCircle
+                                            className="mr-2 size-4 motion-safe:animate-spin"
+                                            aria-hidden="true"
+                                        />
+                                    )}
+                                    {processing
+                                        ? __(
+                                              'pages/settings/profile.form.save_button_processing',
+                                          )
+                                        : __(
+                                              'pages/settings/profile.form.save_button',
+                                          )}
                                 </Button>
                             </div>
                         </>
@@ -133,7 +177,7 @@ export default function Profile(
 Profile.layout = {
     breadcrumbs: [
         {
-            title: 'Profile settings',
+            title: 'pages/settings/profile.head_title',
             href: edit(),
         },
     ],
