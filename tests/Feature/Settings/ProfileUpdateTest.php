@@ -3,8 +3,10 @@
 namespace Tests\Feature\Settings;
 
 use App\Models\User;
+use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
 
 class ProfileUpdateTest extends TestCase
@@ -75,6 +77,34 @@ class ProfileUpdateTest extends TestCase
 
         $response->assertSessionHasNoErrors();
         $this->assertSame('Test User', $user->refresh()->name);
+    }
+
+    public function test_verification_email_is_sent_when_email_changes()
+    {
+        Notification::fake();
+
+        $user = User::factory()->create();
+
+        $this->actingAs($user)->patch(route('profile.update'), [
+            'name' => $user->name,
+            'email' => 'new-email@example.com',
+        ]);
+
+        Notification::assertSentTo($user, VerifyEmail::class);
+    }
+
+    public function test_verification_email_is_not_sent_when_email_is_unchanged()
+    {
+        Notification::fake();
+
+        $user = User::factory()->create();
+
+        $this->actingAs($user)->patch(route('profile.update'), [
+            'name' => 'New Name',
+            'email' => $user->email,
+        ]);
+
+        Notification::assertNothingSent();
     }
 
     public function test_profile_update_is_logged()

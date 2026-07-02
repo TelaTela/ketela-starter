@@ -51,6 +51,10 @@ class ProfileController extends Controller
 
         $user->save();
 
+        if ($emailChanged) {
+            $user->sendEmailVerificationNotification();
+        }
+
         Log::info('Settings/Profile: Profile updated.', [
             'user_id' => $user->id,
             'name_changed' => $nameChanged,
