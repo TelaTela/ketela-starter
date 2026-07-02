@@ -9,9 +9,14 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 use Inertia\Response;
 
+/**
+ * Handles viewing and mutating the authenticated user's own profile
+ * (name, email) from the account settings area.
+ */
 class ProfileController extends Controller
 {
     /**
@@ -19,6 +24,10 @@ class ProfileController extends Controller
      */
     public function edit(Request $request): Response
     {
+        syncLangFiles([
+            'pages/settings/profile',
+        ]);
+
         return Inertia::render('settings/profile', [
             'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
             'status' => $request->session()->get('status'),
@@ -30,15 +39,28 @@ class ProfileController extends Controller
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
-        $request->user()->fill($request->validated());
+        $user = $request->user();
+        $user->fill($request->validated());
 
-        if ($request->user()->isDirty('email')) {
-            $request->user()->email_verified_at = null;
+        $nameChanged = $user->isDirty('name');
+        $emailChanged = $user->isDirty('email');
+
+        if ($emailChanged) {
+            $user->email_verified_at = null;
         }
 
-        $request->user()->save();
+        $user->save();
 
-        Inertia::flash('toast', ['type' => 'success', 'message' => __('Profile updated.')]);
+        Log::info('Settings/Profile: Profile updated.', [
+            'user_id' => $user->id,
+            'name_changed' => $nameChanged,
+            'email_changed' => $emailChanged,
+        ]);
+
+        Inertia::flash('toast', [
+            'type' => 'success',
+            'message' => __('settings/profile.update.success'),
+        ]);
 
         return to_route('profile.edit');
     }
