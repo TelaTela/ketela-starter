@@ -18,12 +18,13 @@ class SecurityController extends Controller
      */
     public function edit(TwoFactorAuthenticationRequest $request): Response
     {
-        $props = [
+        syncLangFiles([
+            'pages/settings/security',
+        ]);
+
+        return Inertia::render('settings/security', [
             'passwordRules' => Password::defaults()->toPasswordRulesString(),
-        ];
-
-
-        return Inertia::render('settings/security', $props);
+        ]);
     }
 
     /**

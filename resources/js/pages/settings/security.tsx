@@ -7,26 +7,33 @@ import PasswordInput from '@/components/password-input';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { edit } from '@/routes/security';
+import { useLang } from '@erag/lang-sync-inertia/react';
+import { LoaderCircle } from 'lucide-react';
 
 type Props = {
     passwordRules: string;
 } ;
 
-export default function Security(props: Props) {
+export default function Security({ passwordRules }: Props) {
     const passwordInput = useRef<HTMLInputElement>(null);
     const currentPasswordInput = useRef<HTMLInputElement>(null);
+        const { __ } = useLang();
 
     return (
         <>
-            <Head title="Security settings" />
+            <Head title={__('pages/settings/security.head_title')} />
 
-            <h1 className="sr-only">Security settings</h1>
+            <h1 className="sr-only">
+                {__('pages/settings/security.head_title')}
+            </h1>
 
             <div className="space-y-6">
                 <Heading
                     variant="small"
-                    title="Update password"
-                    description="Ensure your account is using a long, random password to stay secure"
+                    title={__('pages/settings/security.heading.title')}
+                    description={__(
+                        'pages/settings/security.heading.description',
+                    )}
                 />
 
                 <Form
@@ -55,7 +62,9 @@ export default function Security(props: Props) {
                         <>
                             <div className="grid gap-2">
                                 <Label htmlFor="current_password">
-                                    Current password
+                                    {__(
+                                        'pages/settings/security.form.current_password.label',
+                                    )}
                                 </Label>
 
                                 <PasswordInput
@@ -64,14 +73,28 @@ export default function Security(props: Props) {
                                     name="current_password"
                                     className="mt-1 block w-full"
                                     autoComplete="current-password"
-                                    placeholder="Current password"
+                                    placeholder={__(
+                                        'pages/settings/security.form.current_password.placeholder',
+                                    )}
+                                    aria-invalid={Boolean(
+                                        errors.current_password,
+                                    )}
+                                    aria-describedby={
+                                        errors.current_password
+                                            ? 'current-password-error'
+                                            : undefined
+                                    }
                                 />
 
-                                <InputError message={errors.current_password} />
+                                <InputError id="current-password-error" message={errors.current_password} />
                             </div>
 
                             <div className="grid gap-2">
-                                <Label htmlFor="password">New password</Label>
+                                <Label htmlFor="password">
+                                    {__(
+                                        'pages/settings/security.form.password.label',
+                                    )}
+                                </Label>
 
                                 <PasswordInput
                                     id="password"
@@ -79,16 +102,26 @@ export default function Security(props: Props) {
                                     name="password"
                                     className="mt-1 block w-full"
                                     autoComplete="new-password"
-                                    placeholder="New password"
-                                    passwordrules={props.passwordRules}
+                                    placeholder={__(
+                                        'pages/settings/security.form.password.placeholder',
+                                    )}
+                                    passwordrules={passwordRules}
+                                    aria-invalid={Boolean(errors.password)}
+                                    aria-describedby={
+                                        errors.password
+                                            ? 'password-error'
+                                            : undefined
+                                    }
                                 />
 
-                                <InputError message={errors.password} />
+                                <InputError id="password-error" message={errors.password} />
                             </div>
 
                             <div className="grid gap-2">
                                 <Label htmlFor="password_confirmation">
-                                    Confirm password
+                                    {__(
+                                        'pages/settings/security.form.password_confirmation.label',
+                                    )}
                                 </Label>
 
                                 <PasswordInput
@@ -96,11 +129,22 @@ export default function Security(props: Props) {
                                     name="password_confirmation"
                                     className="mt-1 block w-full"
                                     autoComplete="new-password"
-                                    placeholder="Confirm password"
-                                    passwordrules={props.passwordRules}
+                                    placeholder={__(
+                                        'pages/settings/security.form.password_confirmation.placeholder',
+                                    )}
+                                    passwordrules={passwordRules}
+                                    aria-invalid={Boolean(
+                                        errors.password_confirmation,
+                                    )}
+                                    aria-describedby={
+                                        errors.password_confirmation
+                                            ? 'password-confirmation-error'
+                                            : undefined
+                                    }
                                 />
 
                                 <InputError
+                                    id="password-confirmation-error"
                                     message={errors.password_confirmation}
                                 />
                             </div>
@@ -108,17 +152,28 @@ export default function Security(props: Props) {
                             <div className="flex items-center gap-4">
                                 <Button
                                     disabled={processing}
+                                    aria-busy={processing}
                                     data-test="update-password-button"
                                 >
-                                    Save
+                                    {processing && (
+                                        <LoaderCircle
+                                            className="mr-2 size-4 motion-safe:animate-spin"
+                                            aria-hidden="true"
+                                        />
+                                    )}
+                                    {processing
+                                        ? __(
+                                              'pages/settings/security.form.save_button_processing',
+                                          )
+                                        : __(
+                                              'pages/settings/security.form.save_button',
+                                          )}
                                 </Button>
                             </div>
                         </>
                     )}
                 </Form>
             </div>
-
-
         </>
     );
 }
@@ -126,7 +181,7 @@ export default function Security(props: Props) {
 Security.layout = {
     breadcrumbs: [
         {
-            title: 'Security settings',
+            title: 'pages/settings/security.head_title',
             href: edit(),
         },
     ],
