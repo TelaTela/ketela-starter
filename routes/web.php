@@ -6,7 +6,7 @@ use Inertia\Inertia;
 
 Route::inertia('/', 'welcome')->name('home');
 
-Route::middleware(['auth', 'verified', 'locale.sync.appsidebar'])->group(function () {
+Route::middleware(['auth', 'auth.session', 'verified', 'locale.sync.appsidebar'])->group(function () {
     Route::get('dashboard', function () {
         syncLangFiles([
             'components/timed-greeting',
