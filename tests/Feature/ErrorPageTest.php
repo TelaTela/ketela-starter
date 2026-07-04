@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Route;
+use Inertia\Testing\AssertableInertia as Assert;
 use Tests\TestCase;
 
 class ErrorPageTest extends TestCase
@@ -28,7 +29,7 @@ class ErrorPageTest extends TestCase
         $response
             ->assertNotFound()
             ->assertInertia(fn (Assert $page) => $page
-                ->component('Error')
+                ->component('error')
                 ->where('status', 404)
                 ->has('requestId')
             );
@@ -43,7 +44,7 @@ class ErrorPageTest extends TestCase
         $this->get('/__test/forbidden')
             ->assertForbidden()
             ->assertInertia(fn (Assert $page) => $page
-                ->component('Error')
+                ->component('error')
                 ->where('status', 403)
             );
     }
@@ -57,7 +58,7 @@ class ErrorPageTest extends TestCase
         $this->get('/__test/server-error')
             ->assertServerError()
             ->assertInertia(fn (Assert $page) => $page
-                ->component('Error')
+                ->component('error')
                 ->where('status', 500)
             );
     }
