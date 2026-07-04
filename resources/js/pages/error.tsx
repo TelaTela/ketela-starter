@@ -1,9 +1,9 @@
-import { Button } from "@/components/ui/button";
-import { dashboard } from "@/routes";
-import { useLang } from "@erag/lang-sync-inertia/react";
-import { Head, Link } from "@inertiajs/react";
-import { Copy } from "lucide-react";
-import { useState } from "react";
+import { useLang } from '@erag/lang-sync-inertia/react';
+import { Head, Link } from '@inertiajs/react';
+import { Copy } from 'lucide-react';
+import { useState } from 'react';
+import { Button } from '@/components/ui/button';
+import { dashboard } from '@/routes';
 
 type Props = {
     status: 403 | 404 | 429 | 500 | 503;
@@ -18,7 +18,9 @@ export default function Error({ status, requestId }: Props) {
     const description = __(`pages/errors.${status}.description`);
 
     const copyRequestId = async () => {
-        if (!requestId) return;
+        if (!requestId) {
+            return;
+        }
 
         await navigator.clipboard.writeText(requestId);
         setCopied(true);
@@ -30,7 +32,11 @@ export default function Error({ status, requestId }: Props) {
             <Head title={__(`${status} - ${title}`)} />
 
             <main className="flex min-h-svh flex-col items-center justify-center gap-6 bg-background px-6 text-center">
-                <img src="/images/errors/placeholder.svg" alt="" className="h-48 w-48 dark:invert" />
+                <img
+                    src={`/images/errors/${status}.svg`}
+                    alt=""
+                    className="h-72 w-72 dark:invert"
+                />
 
                 <div className="space-y-2">
                     <h1 className="text-2xl font-semibold text-foreground">
@@ -57,9 +63,7 @@ export default function Error({ status, requestId }: Props) {
                         </button>
 
                         <span role="status" className="sr-only">
-                            {copied
-                                ? __('pages/errors.request_id_copied')
-                                : ''}
+                            {copied ? __('pages/errors.request_id_copied') : ''}
                         </span>
                     </div>
                 )}
