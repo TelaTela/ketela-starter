@@ -2,7 +2,10 @@ import { useLang } from '@erag/lang-sync-inertia/react';
 import { Form, Head, usePage } from '@inertiajs/react';
 import { Link } from '@inertiajs/react';
 import { LoaderCircle } from 'lucide-react';
+import { useRef } from 'react';
 import ProfileController from '@/actions/App/Http/Controllers/Settings/ProfileController';
+import type { AvatarUploaderHandle } from '@/components/avatar-uploader';
+import AvatarUploader from '@/components/avatar-uploader';
 import DeleteUser from '@/components/delete-user';
 import Heading from '@/components/heading';
 import InputError from '@/components/input-error';
@@ -28,6 +31,7 @@ export default function Profile(
 ) {
     const { auth } = usePage<PageProps>().props;
     const { __ } = useLang();
+    const avatarUploaderRef = useRef<AvatarUploaderHandle>(null);
 
     return (
         <>
@@ -51,66 +55,82 @@ export default function Profile(
                     options={{
                         preserveScroll: true,
                     }}
+                    onSuccess={() =>
+                        avatarUploaderRef.current?.clearStagedFile()
+                    }
                     className="space-y-6"
                 >
                     {({ processing, errors }) => (
                         <>
-                            <div className="grid gap-2">
-                                <Label htmlFor="name">
-                                    {__('pages/settings/profile.form.name.label')}
-                                </Label>
+                            <div className="flex flex-col gap-6 sm:flex-row sm:items-start">
+                                <div className="flex-1 space-y-6">
+                                    <div className="grid gap-2">
+                                        <Label htmlFor="name">
+                                            {__('pages/settings/profile.form.name.label')}
+                                        </Label>
 
-                                <Input
-                                    id="name"
-                                    className="mt-1 block w-full"
-                                    defaultValue={auth.user.name}
-                                    name="name"
-                                    required
-                                    autoComplete="name"
-                                    placeholder={__(
-                                        'pages/settings/profile.form.name.placeholder'
-                                    )}
-                                    aria-invalid={Boolean(errors.name)}
-                                    aria-describedby={
-                                        errors.name ? 'name-error' : undefined
+                                        <Input
+                                            id="name"
+                                            className="mt-1 block w-full"
+                                            defaultValue={auth.user.name}
+                                            name="name"
+                                            required
+                                            autoComplete="name"
+                                            placeholder={__(
+                                                'pages/settings/profile.form.name.placeholder'
+                                            )}
+                                            aria-invalid={Boolean(errors.name)}
+                                            aria-describedby={
+                                                errors.name ? 'name-error' : undefined
+                                            }
+                                        />
+
+                                        <InputError
+                                            id="name-error"
+                                            className="mt-2"
+                                            message={errors.name}
+                                        />
+                                    </div>
+
+                                    <div className="grid gap-2">
+                                        <Label htmlFor="email">
+                                            {__('pages/settings/profile.form.email.label')}
+                                        </Label>
+
+                                        <Input
+                                            id="email"
+                                            type="email"
+                                            className="mt-1 block w-full"
+                                            defaultValue={auth.user.email}
+                                            name="email"
+                                            required
+                                            autoComplete="username"
+                                            placeholder={__(
+                                                'pages/settings/profile.form.email.placeholder'
+                                            )}
+                                            aria-invalid={Boolean(errors.email)}
+                                            aria-describedby={
+                                                errors.email
+                                                    ? 'email-error'
+                                                    : undefined
+                                            }
+                                        />
+
+                                        <InputError
+                                            id="email-error"
+                                            className="mt-2"
+                                            message={errors.email}
+                                        />
+                                    </div>
+                                </div>
+
+                                <AvatarUploader
+                                    ref={avatarUploaderRef}
+                                    name="avatar"
+                                    currentAvatarUrl={
+                                        auth.avatar?.preview ?? null
                                     }
-                                />
-
-                                <InputError
-                                    id="name-error"
-                                    className="mt-2"
-                                    message={errors.name}
-                                />
-                            </div>
-
-                            <div className="grid gap-2">
-                                <Label htmlFor="email">
-                                    {__('pages/settings/profile.form.email.label')}
-                                </Label>
-
-                                <Input
-                                    id="email"
-                                    type="email"
-                                    className="mt-1 block w-full"
-                                    defaultValue={auth.user.email}
-                                    name="email"
-                                    required
-                                    autoComplete="username"
-                                    placeholder={__(
-                                        'pages/settings/profile.form.email.placeholder'
-                                    )}
-                                    aria-invalid={Boolean(errors.email)}
-                                    aria-describedby={
-                                        errors.email
-                                            ? 'email-error'
-                                            : undefined
-                                    }
-                                />
-
-                                <InputError
-                                    id="email-error"
-                                    className="mt-2"
-                                    message={errors.email}
+                                    error={errors.avatar}
                                 />
                             </div>
 

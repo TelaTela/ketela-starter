@@ -42,6 +42,10 @@ class HandleInertiaRequests extends Middleware
             'locale' => app()->getLocale(),
             'auth' => [
                 'user' => $request->user(),
+                'avatar' => $request->user() ? [
+                    'thumb' => $request->user()->getFirstMediaUrl('avatar', 'thumb') ?: null,
+                    'preview' => $request->user()->getFirstMediaUrl('avatar', 'preview') ?: null,
+                ] : null,
             ],
             'sidebarOpen' => ! $request->hasCookie('sidebar_state') || $request->cookie('sidebar_state') === 'true',
         ];

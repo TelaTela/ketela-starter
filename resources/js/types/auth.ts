@@ -2,15 +2,20 @@ export type User = {
     id: number;
     name: string;
     email: string;
-    avatar?: string;
     email_verified_at: string | null;
     created_at: string;
     updated_at: string;
     [key: string]: unknown;
 };
 
+export type Avatar = {
+    thumb: string | null;
+    preview: string | null;
+}
+
 export type Auth = {
     user: User;
+    avatar: Avatar | null;
 };
 
 /* @chisel-passkeys */

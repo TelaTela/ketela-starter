@@ -5,13 +5,22 @@ namespace Tests\Feature\Settings;
 use App\Models\User;
 use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
 class ProfileUpdateTest extends TestCase
 {
     use RefreshDatabase;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        Storage::fake(config('media-library.disk_name'));
+    }
 
     public function test_profile_page_is_displayed()
     {
@@ -107,6 +116,55 @@ class ProfileUpdateTest extends TestCase
         Notification::assertNothingSent();
     }
 
+    public function test_avatar_can_be_uploaded()
+    {
+        $user = User::factory()->create();
+
+        $response = $this
+            ->actingAs($user)
+            ->patch(route('profile.update'), [
+                'name' => $user->name,
+                'email' => $user->email,
+                'avatar' => UploadedFile::fake()->image('avatar.jpg', 400, 400),
+            ]);
+
+        $response->assertSessionHasNoErrors();
+
+        $user->refresh();
+        $this->assertTrue($user->hasMedia('avatar'));
+        $this->assertNotNull($user->getFirstMediaUrl('avatar', 'thumb'));
+        $this->assertNotNull($user->getFirstMediaUrl('avatar', 'preview'));
+    }
+
+    public function test_uploading_a_new_avatar_replaces_the_previous_one()
+    {
+        $user = User::factory()->create();
+        $user->addMedia(UploadedFile::fake()->image('old.jpg', 400, 400))
+            ->toMediaCollection('avatar');
+
+        $this->actingAs($user)->patch(route('profile.update'), [
+            'name' => $user->name,
+            'email' => $user->email,
+            'avatar' => UploadedFile::fake()->image('new.jpg', 400, 400),
+        ]);
+
+        $this->assertCount(1, $user->refresh()->getMedia('avatar'));
+    }
+
+    public function test_avatar_must_be_an_image()
+    {
+        $user = User::factory()->create();
+
+        $response = $this->actingAs($user)->patch(route('profile.update'), [
+            'name' => $user->name,
+            'email' => $user->email,
+            'avatar' => UploadedFile::fake()->create('not-an-image.pdf', 100),
+        ]);
+
+        $response->assertSessionHasErrors('avatar');
+        $this->assertFalse($user->refresh()->hasMedia('avatar'));
+    }
+
     public function test_profile_update_is_logged()
     {
         Log::spy();
@@ -116,6 +174,7 @@ class ProfileUpdateTest extends TestCase
         $this->actingAs($user)->patch(route('profile.update'), [
             'name' => 'New Name',
             'email' => $user->email,
+            'avatar' => UploadedFile::fake()->image('avatar.jpg', 400, 400),
         ]);
 
         Log::shouldHaveReceived('info')
@@ -123,7 +182,8 @@ class ProfileUpdateTest extends TestCase
             ->with('Settings/Profile: Profile updated.', \Mockery::on(function (array $context) use ($user) {
                 return $context['user_id'] === $user->id
                     && $context['name_changed'] === true
-                    && $context['email_changed'] === false;
+                    && $context['email_changed'] === false
+                    && $context['avatar_changed'] === true;
             }));
     }
 
