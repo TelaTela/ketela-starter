@@ -4,12 +4,13 @@ import React, {
     forwardRef,
     useImperativeHandle,
     useRef,
-    useState,
-    type PointerEvent as ReactPointerEvent,
-    type WheelEvent as ReactWheelEvent,
+    useState
+    
+    
 } from 'react';
-import { Button } from './ui/button';
+import type {PointerEvent as ReactPointerEvent, WheelEvent as ReactWheelEvent} from 'react';
 import InputError from './input-error';
+import { Button } from './ui/button';
 
 /** Display diameter of the crop circle. */
 const CROP_SIZE = 224;
@@ -95,6 +96,7 @@ const AvatarUploader = forwardRef<AvatarUploaderHandle, AvatarUploaderProps>(
                 setClientError(
                     __('components/avatar-uploader.errors.invalid_type'),
                 );
+
                 return;
             }
 
@@ -102,6 +104,7 @@ const AvatarUploader = forwardRef<AvatarUploaderHandle, AvatarUploaderProps>(
                 setClientError(
                     __('components/avatar-uploader.errors.too_large'),
                 );
+
                 return;
             }
 
@@ -119,6 +122,7 @@ const AvatarUploader = forwardRef<AvatarUploaderHandle, AvatarUploaderProps>(
 
         function onImageLoad() {
             const img = imgRef.current;
+
             if (!img) {
                 return;
             }
@@ -225,6 +229,7 @@ const AvatarUploader = forwardRef<AvatarUploaderHandle, AvatarUploaderProps>(
                     // <Form>'s normal multipart submission.
                     const dataTransfer = new DataTransfer();
                     dataTransfer.items.add(file);
+
                     if (croppedFileInputRef.current) {
                         croppedFileInputRef.current.files = dataTransfer.files;
                     }
@@ -240,6 +245,7 @@ const AvatarUploader = forwardRef<AvatarUploaderHandle, AvatarUploaderProps>(
                     if (imageSrc) {
                         URL.revokeObjectURL(imageSrc);
                     }
+
                     setImageSrc(null);
                     setIsCropping(false);
                 },
@@ -252,6 +258,7 @@ const AvatarUploader = forwardRef<AvatarUploaderHandle, AvatarUploaderProps>(
             e.preventDefault();
 
             const file = e.dataTransfer.files?.[0];
+
             if (file) {
                 handleFileSelected(file);
             }
@@ -267,9 +274,11 @@ const AvatarUploader = forwardRef<AvatarUploaderHandle, AvatarUploaderProps>(
                     className="hidden"
                     onChange={(e) => {
                         const file = e.target.files?.[0];
+
                         if (file) {
                             handleFileSelected(file);
                         }
+
                         e.target.value = '';
                     }}
                 />

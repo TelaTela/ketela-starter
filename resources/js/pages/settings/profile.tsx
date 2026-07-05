@@ -2,7 +2,10 @@ import { useLang } from '@erag/lang-sync-inertia/react';
 import { Form, Head, usePage } from '@inertiajs/react';
 import { Link } from '@inertiajs/react';
 import { LoaderCircle } from 'lucide-react';
+import { useRef } from 'react';
 import ProfileController from '@/actions/App/Http/Controllers/Settings/ProfileController';
+import type { AvatarUploaderHandle } from '@/components/avatar-uploader';
+import AvatarUploader from '@/components/avatar-uploader';
 import DeleteUser from '@/components/delete-user';
 import Heading from '@/components/heading';
 import InputError from '@/components/input-error';
@@ -12,8 +15,6 @@ import { Label } from '@/components/ui/label';
 import { edit } from '@/routes/profile';
 import { send } from '@/routes/verification';
 import type { Auth } from '@/types';
-import { useRef } from 'react';
-import AvatarUploader, { AvatarUploaderHandle } from '@/components/avatar-uploader';
 
 type PageProps = {
     auth: Auth;
