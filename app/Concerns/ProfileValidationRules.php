@@ -18,6 +18,7 @@ trait ProfileValidationRules
         return [
             'name' => $this->nameRules(),
             'email' => $this->emailRules($userId),
+            'avatar' => $this->avatarRules(),
         ];
     }
 
@@ -47,5 +48,13 @@ trait ProfileValidationRules
                 ? Rule::unique(User::class)
                 : Rule::unique(User::class)->ignore($userId),
         ];
+    }
+
+    /**
+     * Get the validation rules used to validate profile picture uploads.
+     */
+    protected function avatarRules(): array
+    {
+        return ['nullable', 'image', 'mimes:jpeg,png,webp', 'max: 5120'];
     }
 }

@@ -25,6 +25,7 @@ class ProfileController extends Controller
     public function edit(Request $request): Response
     {
         syncLangFiles([
+            'components/avatar-uploader',
             'pages/settings/profile',
         ]);
 
@@ -40,7 +41,7 @@ class ProfileController extends Controller
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
         $user = $request->user();
-        $user->fill($request->validated());
+        $user->fill($request->safe()->except('avatar'));
 
         $nameChanged = $user->isDirty('name');
         $emailChanged = $user->isDirty('email');
@@ -55,10 +56,17 @@ class ProfileController extends Controller
             $user->sendEmailVerificationNotification();
         }
 
+        $avatarChanged = $request->hasFile('avatar');
+
+        if ($avatarChanged) {
+            $user->addMediaFromRequest('avatar')->toMediaCollection('avatar');
+        }
+
         Log::info('Settings/Profile: Profile updated.', [
             'user_id' => $user->id,
             'name_changed' => $nameChanged,
             'email_changed' => $emailChanged,
+            'avatar_changed' => $avatarChanged,
         ]);
 
         Inertia::flash('toast', [
