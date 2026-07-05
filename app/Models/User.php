@@ -75,11 +75,11 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia
     public function registerMediaConversions(?Media $media = null): void
     {
         $this->addMediaConversion('thumb')
-            ->fit(Fit::Crop, 64, 64)
-            ->nonQueued();
+            ->nonQueued()
+            ->fit(Fit::Crop, 64, 64);
 
         $this->addMediaConversion('preview')
-            ->fit(Fit::Crop, 256, 256)
-            ->nonQueued();
+            ->nonQueued()
+            ->fit(Fit::Crop, 256, 256);
     }
 }

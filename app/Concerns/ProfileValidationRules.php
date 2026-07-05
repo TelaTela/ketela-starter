@@ -52,6 +52,8 @@ trait ProfileValidationRules
 
     /**
      * Get the validation rules used to validate profile picture uploads.
+     *
+     * @return array<int, ValidationRule|array<mixed>|string>
      */
     protected function avatarRules(): array
     {
