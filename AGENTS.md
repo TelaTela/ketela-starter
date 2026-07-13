@@ -74,6 +74,32 @@
 
 ---
 
+## Agent Skills
+
+**Installed skills** (in `.agents/skills/`):
+
+| Skill | Purpose |
+|-------|---------|
+| `laravel-patterns` | Architecture, routing/controllers, Eloquent, API resources |
+| `laravel-security` | Authentication, authorization, CSRF, XSS, API security |
+| `laravel-tdd` | PHPUnit testing, factories, mocking, coverage |
+| `laravel-inertia-react` | Inertia.js + React integration, useForm, shared data, layouts |
+| `owasp-security` | OWASP Top 10 controls (standards layer over `laravel-security`) |
+| `laravel-permission-development` | Spatie Permission roles, permissions, middleware, policies |
+| `medialibrary-development` | Spatie MediaLibrary collections, conversions, file management |
+| `shadcn` | shadcn/ui component add/search/compose (primary UI skill) |
+| `tailwind-design-system` | Tailwind CSS v4 utility classes (referenced when customizing shadcn) |
+| `responsive-design` | Container queries, fluid typography, mobile-first layouts |
+| `accessibility` | WCAG 2.2 compliance, keyboard nav, ARIA, screen reader support |
+| `vercel-react-best-practices` | React/Next.js performance patterns, rendering, caching |
+
+**Priority rules:**
+1. `owasp-security` is the *standard*; `laravel-security` is the *implementation*.
+2. `shadcn` is primary for UI; `tailwind-design-system` only when customizing beyond shadcn defaults.
+3. `web-design-guidelines` (global) used for general Web Interface Guidelines review.
+
+---
+
 ## Architecture Overview
 - **Backend:** Controllers in `app/Http/Controllers/`, models in `app/Models/`.
 - **Frontend:** Inertia React in `resources/js/`, pages in `resources/js/pages/`.
